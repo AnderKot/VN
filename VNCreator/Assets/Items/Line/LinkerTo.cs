@@ -13,14 +13,15 @@ public class LinkerTo : MonoBehaviour
     {
         if (!Linked)
         {
-            GameObject newLine = Instantiate(Line);
-            NextPoint = newLine.GetComponent<Wall>().End_T;
+            GameObject newLine = Instantiate(Line,transform.position + (Vector3.forward * 5),new Quaternion(0,0,0,1));
+            NextPoint = newLine.GetComponent<Line>().End_T;
             CursorMng.CurrTarget = NextPoint.GetComponent<Rigidbody2D>();
-            Transform MyPoint = newLine.GetComponent<Wall>().Start_T;
+            Transform MyPoint = newLine.GetComponent<Line>().Start_T;
             Destroy(MyPoint.GetComponent<Collider2D>());
             Destroy(MyPoint.GetComponent<Rigidbody2D>());
             MyPoint.SetParent(transform);
             MyPoint.localPosition = Vector3.back;
+            LinkSet(true);
         }
     }
 
@@ -32,7 +33,7 @@ public class LinkerTo : MonoBehaviour
             {
                 Linked = true;
                 Transform LinkedPoint = collision.transform;
-                LinkedPoint.parent.GetComponent<Wall>().Wall_T.GetComponent<SpriteRenderer>().color = Color.green;
+                LinkedPoint.parent.GetComponent<Line>().Wall_T.GetComponent<SpriteRenderer>().color = Color.green;
                 LinkedPoint.SetParent(transform);
                 LinkedPoint.localPosition = Vector3.back;
                 Destroy(LinkedPoint.GetComponent<Collider2D>());
@@ -42,8 +43,8 @@ public class LinkerTo : MonoBehaviour
         }
     }
 
-    public void Link()
+    public void LinkSet(bool linked)
     {
-        Linked = true;
+        Linked = linked;
     }
 }

@@ -31,22 +31,19 @@ public class CursorMng : MonoBehaviour
 
             Camera.main.orthographicSize = CurrDistanse;
         }
-
-        if (Input.GetMouseButton(0))
+        
+        if (Input.GetMouseButton(1))
         {
-            if (CurrTarget == null)
-            {
-                float CurrDistanse = Camera.main.orthographicSize - Scroll.y;
-                Camera.main.transform.position = new Vector3(-Input.GetAxis("Mouse X") * 0.1f * CurrDistanse, -Input.GetAxis("Mouse Y") * 0.1f * CurrDistanse, 0) + Camera.main.transform.position;
-            }
-            else
-            {
-                Vector3 WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
-                MyRigidbody.MovePosition(new Vector2(WorldPos.x, WorldPos.y) + (Vector2.right * Xoffset) + (Vector2.up * Yoffset));
-                CurrTarget.MovePosition(MyRigidbody.position);
-                NeedClear = true;
-            }
+            float CurrDistanse = Camera.main.orthographicSize - Scroll.y;
+            Camera.main.transform.position = new Vector3(-Input.GetAxis("Mouse X") * 0.1f * CurrDistanse, -Input.GetAxis("Mouse Y") * 0.1f * CurrDistanse, 0) + Camera.main.transform.position;
+        }
 
+        if (Input.GetMouseButton(0) & (CurrTarget != null))
+        {
+            Vector3 WorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f));
+            MyRigidbody.MovePosition(new Vector2(WorldPos.x, WorldPos.y) + (Vector2.right * Xoffset) + (Vector2.up * Yoffset));
+            CurrTarget.MovePosition(MyRigidbody.position);
+            NeedClear = true;
         }
         else
         {
@@ -66,9 +63,15 @@ public class CursorMng : MonoBehaviour
         if (!Input.GetMouseButton(0))
         {
             Debug.Log("Курсор над " + collision.name);
-            if (collision.tag == "MoveBar")
+            if ((collision.tag == "MoveBar"))
             {
                 CurrTarget = collision.gameObject.GetComponent<MoveBar>().MovedRigidbody;
+                Debug.Log("Курсор готов зацепить");
+            }
+
+            if((collision.tag == "PointEnd") | (collision.tag == "PointStart"))
+            {
+                CurrTarget = collision.gameObject.GetComponent<Rigidbody2D>();
                 Debug.Log("Курсор готов зацепить");
             }
         }   
