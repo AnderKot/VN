@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LinkerFromMng : MonoBehaviour
+public class LinkerFrom : MonoBehaviour
 {
     public GameObject Line;
     private Transform NextPoint;
 
-    private void OnMouseDown()
+    protected virtual void OnMouseDown()
     {
         GameObject newLine = Instantiate(Line, transform.position + (Vector3.forward * 5), new Quaternion(0, 0, 0, 1));
         NextPoint = newLine.GetComponent<Line>().Start_T;

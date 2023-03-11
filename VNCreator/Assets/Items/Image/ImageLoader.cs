@@ -22,7 +22,7 @@ public class ImageLoader : MonoBehaviour
             {
                 MyManager = Instantiate(ImageManager, FatherObgect).GetComponent<ImageMng>();
             }
-            MyManager.SetImagePath(ImagePath);
+            //MyManager.SetImagePathFrom(ImagePath);
         }
     }
 }
